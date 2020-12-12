@@ -17,7 +17,10 @@ public class ControlBox extends ToolBar {
     public ControlBox() {
         stepBtn = new Button("Step!");
         resetBtn = new Button("Reset!");
-        slider = new Slider(10, 25, 1);
+        slider = new Slider(10, 25, 10);
+        slider.setMajorTickUnit(1);
+        slider.setMinorTickCount(1);
+        slider.setShowTickMarks(true);
         this.getItems().addAll(
                 stepBtn, resetBtn, slider
         );

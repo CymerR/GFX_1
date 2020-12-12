@@ -78,22 +78,7 @@ public class Simulation {
         return height;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public int[][] getStates() {
-        return states;
-    }
-
-    public void setStates(int[][] states) {
-        this.states = states;
-    }
-
     /**
-     *
-     * @param x
-     * @param y
      * @return true - if OK
      */
     private boolean checkBounds(int x, int y) {
