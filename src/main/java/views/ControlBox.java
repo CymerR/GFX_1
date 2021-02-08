@@ -1,52 +1,80 @@
 package views;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 public class ControlBox extends ToolBar {
-    private Button stepBtn;
-    private Button resetBtn;
-//    private Slider slider;
+
+
+    private Map<String, Button> buttons;
+
+    private TextField inputTxt;
+
 
     public ControlBox() {
-        stepBtn = new Button("Step!");
-        resetBtn = new Button("Reset!");
-//        slider = new Slider(10, 25, 10);
-//        slider.setMajorTickUnit(1);
-//        slider.setMinorTickCount(1);
-//        slider.setShowTickMarks(true);
-        this.getItems().addAll(
-                stepBtn, resetBtn//, slider
-        );
 
+        buttons = new HashMap<>();
+        buttons.put("play",new Button("Play!"));
+        buttons.put("switch",new Button("1D"));
+        buttons.put("reset",new Button("Reset!"));
+        buttons.put("back",new Button("Back!"));
+        buttons.put("step",new Button("Step!"));
+        inputTxt = new TextField();
+        inputTxt.setPrefColumnCount(3);
+
+
+
+
+
+        this.getItems().addAll(
+                buttons.values()
+        );
+        this.getItems().addAll( inputTxt);
 
     }
 
-//    void setScrollValue(double size) {
-//        this.slider.setValue(size);
-//    }
-//
-//    public void setScrollAction(ChangeListener<Number> listener) {
-//        slider.valueProperty().addListener(listener);
-//    }
+
 
     public void setStepAction(EventHandler<ActionEvent> handler){
-        stepBtn.setOnAction(handler);
+        buttons.get("step").setOnAction(handler);
     }
 
     public void setResetAction(EventHandler<ActionEvent> handler){
-        resetBtn.setOnAction(handler);
+        buttons.get("reset").setOnAction(handler);
     }
 
-    List<Node> getNodes() {
-        return List.of(stepBtn, resetBtn);
+
+    public void setBackAction(EventHandler<ActionEvent> handler){
+        buttons.get("back").setOnAction(handler);
+    }
+
+
+    public void addPlayAction(EventHandler<ActionEvent> handler){
+        buttons.get("play").setOnAction(ev -> {
+            var text = inputTxt.getText();
+            if (!Pattern.compile("\\d+").matcher(text).matches()) {
+                new Alert(Alert.AlertType.ERROR, "Must be number!").showAndWait();
+                text = "0";
+            }
+            int n = Integer.parseInt(text);
+            var stp = buttons.get("step");
+            if (stp != null && stp.getOnAction() != null) {
+                try {
+                    for (int i = 0;i < n;i++, handler.handle(ev), Thread.sleep(0)) {
+                        stp.getOnAction().handle(ev);
+                        System.out.println("Ticked!");
+
+                    }
+                } catch (InterruptedException ex) {}
+            }
+        });
     }
 }

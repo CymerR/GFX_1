@@ -24,7 +24,7 @@ public class MainView extends VBox {
 
     private double width, height;
 
-    public MainView(double w, double h, double x) {
+    public MainView(double w, double h, double x)  {
         canvas = new Canvas(w,h);
         simulation = new Simulation((int) x,(int) x);
 
@@ -39,14 +39,22 @@ public class MainView extends VBox {
 
 
         ControlBox ui = new ControlBox();
-        ui.setStepAction(ev -> {
-            simulation.step();
+        ui.addPlayAction(ev -> {
             draw();
+        });
+        ui.setStepAction(ev -> {
+            draw();
+            simulation.step();
         });
         ui.setResetAction(ev -> {
             simulation.clear();
             draw();
         });
+        ui.setBackAction(ev -> {
+            simulation.stepBack();
+            draw();
+        });
+
         this.getChildren().addAll(ui, canvas);
     }
 

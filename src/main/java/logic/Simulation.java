@@ -1,7 +1,14 @@
 package logic;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
+
 public class Simulation {
     public static final int ALIVE = 1, DEAD  = 0;
+
+    private Deque<int[][]> chronos;
 
     int width;
     int height;
@@ -11,6 +18,7 @@ public class Simulation {
         width = w;
         height = h;
         states = new int[w][h];
+        chronos = new ArrayDeque<>();
     }
 
     public int getState(int x, int y) {
@@ -42,6 +50,7 @@ public class Simulation {
     }
 
     public void step() {
+        chronos.add(states);
         int[][] next = new int[width][height];
         for (int x = 0;x<width;x++) {
             for (int y = 0;y<height;y++) {
@@ -71,6 +80,7 @@ public class Simulation {
                 this.states[x][y] = 0;
             }
         }
+        chronos.clear();
     }
 
     public int getWidth() {
@@ -87,6 +97,13 @@ public class Simulation {
      */
     private boolean checkBounds(int x, int y) {
         return !(x < 0 || x >= width) && !(y < 0 || y >= width);
+    }
+
+
+    public void stepBack() {
+         var obj = chronos.pollLast();
+         if (obj != null)
+                this.states = obj;
     }
 
     public void setNewSize(int newSize) {
