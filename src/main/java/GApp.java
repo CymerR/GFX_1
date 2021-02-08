@@ -2,11 +2,10 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import views.MainView;
-import views.MonoView;
 
 public class GApp extends Application {
 
-    static final double width = 500, height = 500, NumOfTiles = 40;
+    static final double width = 900, height = 600, NumOfTiles = 50;
 
     @Override
     public void start(Stage primaryStage) {

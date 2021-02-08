@@ -1,9 +1,13 @@
 package logic;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.util.Duration;
+import views.MainView;
+
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
-import java.util.List;
 
 public class Simulation {
     public static final int ALIVE = 1, DEAD  = 0;
@@ -13,12 +17,16 @@ public class Simulation {
     int width;
     int height;
     int[][] states;
-
-    public Simulation(int w, int h){
+    MainView view;
+    public Simulation(MainView view, int w, int h){
         width = w;
         height = h;
         states = new int[w][h];
         chronos = new ArrayDeque<>();
+        this.view = view;
+
+        this.timeline = new Timeline(new KeyFrame(Duration.millis(500), this::doStep));
+        timeline.setCycleCount(-1);
     }
 
     public int getState(int x, int y) {
@@ -106,15 +114,17 @@ public class Simulation {
                 this.states = obj;
     }
 
-    public void setNewSize(int newSize) {
-        int[][] newBoard= new int[newSize][newSize];
-        //todo: array copy
-//        if (newSize > width-1) {
-//            System.arraycopy(states,0,newBoard,0,width-1);
-//        }
+    Timeline timeline;
 
-        this.width = newSize;
-        this.height = newSize;
-        this.states = newBoard;
+    private void doStep(ActionEvent ev) {
+        step();
+        view.draw();
+    }
+
+    public void play() {
+        timeline.play();
+    }
+    public void stop(){
+        timeline.stop();
     }
 }
