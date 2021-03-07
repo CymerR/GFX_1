@@ -5,7 +5,7 @@ import views.MainView;
 
 public class GApp extends Application {
 
-    static final double width = 900, height = 600, NumOfTiles = 50;
+    static final double width = 500, height = 500, NumOfTiles = 40;
 
     @Override
     public void start(Stage primaryStage) {

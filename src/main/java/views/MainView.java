@@ -15,17 +15,18 @@ import javafx.scene.transform.NonInvertibleTransformException;
 import logic.Simulation;
 
 public class MainView extends VBox {
-
     private Canvas canvas;
     private Simulation simulation;
     private Affine affine;
+    private Button stepBtn;
+    private Button resetBtn;
     private double tileSize;
 
     private double width, height;
 
     public MainView(double w, double h, double x)  {
         canvas = new Canvas(w,h);
-        simulation = new Simulation(this, (int) x,(int) x);
+        simulation = new Simulation((int) x,(int) x);
 
         this.width = w;
         this.height = h;
@@ -37,8 +38,22 @@ public class MainView extends VBox {
         canvas.setOnMouseDragged(this::handleMouse);
 
 
-        ControlBox ui = new ControlBox(this);
-
+        ControlBox ui = new ControlBox();
+        ui.addPlayAction(ev -> {
+            draw();
+        });
+        ui.setStepAction(ev -> {
+            draw();
+            simulation.step();
+        });
+        ui.setResetAction(ev -> {
+            simulation.clear();
+            draw();
+        });
+        ui.setBackAction(ev -> {
+            simulation.stepBack();
+            draw();
+        });
 
         this.getChildren().addAll(ui, canvas);
     }
@@ -90,9 +105,4 @@ public class MainView extends VBox {
             g.strokeLine(0,y,simulation.getHeight(), y);
         }
     }
-
-
-    public Simulation getSimulation() {
-        return simulation;
-    };
 }
