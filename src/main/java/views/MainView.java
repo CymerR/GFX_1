@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.NonInvertibleTransformException;
 import logic.Simulation;
+import logic.State;
 
 public class MainView extends VBox {
 
@@ -70,13 +71,9 @@ public class MainView extends VBox {
 
         for (int x=0;x < simulation.getWidth(); x++) {
             for (int y =0; y<simulation.getHeight();y++) {
-                switch (simulation.getState(x,y)){
-                    case Simulation.ALIVE:
-                        g.setFill(Color.BISQUE);
-                        break;
-                    case Simulation.DEAD:
-                        g.setFill(Color.DARKGRAY);
-                        break;
+                switch (simulation.getState(x, y)) {
+                    case 1 -> g.setFill(Color.BISQUE);
+                    case 0 -> g.setFill(Color.DARKGRAY);
                 }
                 g.fillRect(x,y,1,1);
             }

@@ -9,19 +9,23 @@ import views.MainView;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public class Simulation {
-    public static final int ALIVE = 1, DEAD  = 0;
+import static logic.State.ALIVE;
 
-    private Deque<int[][]> chronos;
+public class Simulation {
+//    public static final int ALIVE = 1, DEAD  = 0;
+
+    private Deque<Cell[][]> chronos;
 
     int width;
     int height;
-    int[][] states;
+    Cell[][] grid;
     MainView view;
     public Simulation(MainView view, int w, int h){
         width = w;
         height = h;
-        states = new int[w][h];
+
+        grid = getGrid(w, h);
+
         chronos = new ArrayDeque<>();
         this.view = view;
 
@@ -30,16 +34,18 @@ public class Simulation {
     }
 
     public int getState(int x, int y) {
-        if (checkBounds(x, y)) return this.states[x][y];
+        if (checkBounds(x, y)) {
+            return (this.grid[x][y].getState() == ALIVE) ? 1 : 0;
+        }
         return 0;
     }
 
     public void setAlive(int x, int y) {
-        if (checkBounds(x, y)) this.states[x][y] = 1;
+        if (checkBounds(x, y)) this.grid[x][y].setAlive();
     }
 
     public void setDead(int x, int y) {
-        if (checkBounds(x, y)) this.states[x][y] = 0;
+        if (checkBounds(x, y)) this.grid[x][y].setDead();
     }
 
     private int countNeihbours(int x, int y) {
@@ -57,35 +63,45 @@ public class Simulation {
         return count;
     }
 
+    private Cell[][] getGrid(int w, int h) {
+        var res = new Cell[w][h];
+        for (int x = 0; x < w; x++) {
+            for (int y = 0; y < h; y++) {
+                res[x][y] = new Cell();
+            }
+        }
+        return res;
+    }
+
     public void step() {
-        chronos.add(states);
-        int[][] next = new int[width][height];
+        chronos.add(grid);
+        var next = getGrid(width, height);
         for (int x = 0;x<width;x++) {
             for (int y = 0;y<height;y++) {
                 int amount = countNeihbours(x,y);
-                switch (this.states[x][y]) {
+                switch (this.grid[x][y].getState()) {
                     case ALIVE:
                         if (amount == 3 || amount == 2) {
-                            next[x][y] = ALIVE;
+                            next[x][y].setAlive();
                         } else {
-                            next[x][y] = DEAD;
+                            next[x][y].setDead();
                         }
                         break;
                     case DEAD:
                         if (amount == 3) {
-                            next[x][y] = ALIVE;
+                            next[x][y].setAlive();
                         }
                         break;
                 }
             }
         }
-        this.states = next;
+        this.grid = next;
     }
 
     public void clear() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                this.states[x][y] = 0;
+                this.grid[x][y].setDead();
             }
         }
         chronos.clear();
@@ -111,7 +127,7 @@ public class Simulation {
     public void stepBack() {
          var obj = chronos.pollLast();
          if (obj != null)
-                this.states = obj;
+                this.grid = obj;
     }
 
     Timeline timeline;
