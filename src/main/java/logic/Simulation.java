@@ -20,6 +20,7 @@ public class Simulation {
     int height;
     Cell[][] grid;
     MainView view;
+
     public Simulation(MainView view, int w, int h){
         width = w;
         height = h;

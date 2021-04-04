@@ -5,7 +5,8 @@ import views.MainView;
 
 public class GApp extends Application {
 
-    static final double width = 900, height = 600, NumOfTiles = 25;
+    static final double SIZE = 10, NumOfTiles = 100;
+    static final double height = SIZE * NumOfTiles, width = height;
 
     @Override
     public void start(Stage primaryStage) {
@@ -14,7 +15,7 @@ public class GApp extends Application {
         primaryStage.setTitle("Hello Life");
         primaryStage.setScene(scene);
         view.draw();
-        primaryStage.setResizable(false);
+        primaryStage.setResizable(true);
         primaryStage.show();
     }
 }

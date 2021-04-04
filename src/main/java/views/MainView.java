@@ -16,32 +16,31 @@ import logic.Simulation;
 import logic.State;
 
 public class MainView extends VBox {
-    private Canvas canvas;
-    private Simulation simulation;
-    private Affine affine;
-    private Button stepBtn;
-    private Button resetBtn;
-    private double tileSize;
+
+    private final Canvas canvas;
+    private final Simulation simulation;
+    private final Affine affine;
 
     private double width, height;
 
     public MainView(double w, double h, double x)  {
         canvas = new Canvas(w,h);
-        simulation = new Simulation((int) x,(int) x);
+        simulation = new Simulation(this, (int) x,(int) x);
 
         this.width = w;
         this.height = h;
-
-        this.tileSize = w / x;
         affine = new Affine();
-        affine.appendScale(w / x, h / x);
+        affine.appendScale(w / (x-1), h / (x-2));
 
         canvas.setOnMouseDragged(this::handleMouse);
 
 
         ControlBox ui = new ControlBox();
-        ui.addPlayAction(ev -> {
-            draw();
+        ui.setPlayAction(ev -> {
+            simulation.play();
+        });
+        ui.setStopAction(ev -> {
+            simulation.stop();
         });
         ui.setStepAction(ev -> {
             draw();
