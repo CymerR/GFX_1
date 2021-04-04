@@ -17,18 +17,19 @@ import logic.State;
 
 public class MainView extends VBox {
 
+    private static final Color ALIVE = Color.TOMATO;
+    private static final Color DEAD = Color.PLUM;
+
+
     private final Canvas canvas;
     private final Simulation simulation;
     private final Affine affine;
 
-    private double width, height;
 
     public MainView(double w, double h, double x)  {
         canvas = new Canvas(w,h);
         simulation = new Simulation(this, (int) x,(int) x);
 
-        this.width = w;
-        this.height = h;
         affine = new Affine();
         affine.appendScale(w / (x-1), h / (x-2));
 
@@ -77,7 +78,7 @@ public class MainView extends VBox {
 
         public void draw() {
             GraphicsContext g = canvas.getGraphicsContext2D();
-            g.setFill(Color.LIGHTGRAY);
+//            g.setFill(Color.LIGHTGRAY);// bg
             g.setTransform(affine);
             g.fillRect(0,0,simulation.getWidth(),simulation.getHeight());
 
@@ -86,14 +87,14 @@ public class MainView extends VBox {
         for (int x=0;x < simulation.getWidth(); x++) {
             for (int y =0; y<simulation.getHeight();y++) {
                 switch (simulation.getState(x, y)) {
-                    case 1 -> g.setFill(Color.BISQUE);
-                    case 0 -> g.setFill(Color.DARKGRAY);
+                    case 1 -> g.setFill(ALIVE); // cell "alive"
+                    case 0 -> g.setFill(DEAD); // cell "dead"
                 }
                 g.fillRect(x,y,1,1);
             }
         }
-        g.setStroke(Color.SLATEBLUE);
-        g.setLineWidth(0.05);
+        g.setStroke(Color.SLATEBLUE); // line, probably wont be done
+        g.setLineWidth(0.02);
         for (int x = 0; x < simulation.getWidth(); x++) {
             g.strokeLine(x,0,x,simulation.getHeight());
         }
