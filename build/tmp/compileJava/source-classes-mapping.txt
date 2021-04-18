@@ -2,12 +2,12 @@ logic/State.java
  logic.State
 views/ControlBox.java
  views.ControlBox
-logic/Cell.java
- logic.Cell
 views/MainView.java
  views.MainView
 logic/Simulation.java
  logic.Simulation
  logic.Simulation$1
+logic/Cell.java
+ logic.Cell
 GApp.java
  GApp

@@ -17,8 +17,8 @@ import logic.State;
 
 public class MainView extends VBox {
 
-    private static final Color ALIVE = Color.TOMATO;
-    private static final Color DEAD = Color.PLUM;
+    private static final Color ALIVE = Color.CRIMSON;
+    private static final Color DEAD = Color.AQUA;
 
 
     private final Canvas canvas;

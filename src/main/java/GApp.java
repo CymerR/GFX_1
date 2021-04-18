@@ -5,7 +5,7 @@ import views.MainView;
 
 public class GApp extends Application {
 
-    static final double SIZE = 10, NumOfTiles = 100;
+    static final double SIZE = 40, NumOfTiles = 20;
     static final double height = SIZE * NumOfTiles, width = height;
 
     @Override
