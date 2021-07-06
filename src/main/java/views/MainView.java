@@ -37,12 +37,11 @@ public class MainView extends VBox {
 
 
         ControlBox ui = new ControlBox();
-        ui.setPlayAction(ev -> {
-            simulation.play();
-        });
-        ui.setStopAction(ev -> {
-            simulation.stop();
-        });
+
+        ui.setAnimationAction(
+                play -> simulation.play(),
+                stop -> simulation.stop()
+        );
         ui.setStepAction(ev -> {
             draw();
             simulation.step();
