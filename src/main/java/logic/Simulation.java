@@ -14,7 +14,7 @@ import static logic.State.ALIVE;
 public class Simulation {
 //    public static final int ALIVE = 1, DEAD  = 0;
 
-    private Deque<Cell[][]> chronos;
+    private final Deque<Cell[][]> chronos;
 
     int width;
     int height;

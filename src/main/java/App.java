@@ -6,7 +6,7 @@ import views.MainView;
 
 import java.util.Properties;
 
-public class GApp extends Application {
+public class App extends Application {
 
     static final double SIZE = 40, NumOfTiles = 20;
     static final double height = SIZE * NumOfTiles, width = height;
@@ -17,14 +17,8 @@ public class GApp extends Application {
         Properties properties = System.getProperties();
         properties.forEach((prop, val) -> System.out.println(prop + " : " + val));
 
-//        String prop = System.getProperty("COLOR_ALIVE");
-//        System.out.println(prop);
-//        var c = Color.valueOf(prop);
-
-//        System.out.println(c);
-
         var view = new MainView(width,height, NumOfTiles);
-        Scene scene = new Scene(view,width,height);
+        Scene scene = new Scene(view,width,height+38);
         primaryStage.setTitle("Hello Life");
         primaryStage.setScene(scene);
         view.draw();
